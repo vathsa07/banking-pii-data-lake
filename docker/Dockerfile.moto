@@ -1,0 +1,11 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+
+RUN pip install --no-cache-dir "moto[server]==5.0.2" boto3
+
+EXPOSE 5000
+
+CMD ["moto_server", "-H", "0.0.0.0", "-p", "5000"]
