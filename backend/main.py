@@ -1,19 +1,22 @@
 import os
 import sys
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from backend.routes.ai_routes import router as ai_router
+from backend.routes.audit_routes import router as audit_router
 from backend.routes.auth_routes import router as auth_router
 from backend.routes.data_routes import router as data_router
-from backend.routes.audit_routes import router as audit_router
 from backend.routes.pipeline_routes import router as pipeline_router
-from backend.routes.ai_routes import router as ai_router
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 app = FastAPI(
     title="Banking PII & Governance Data Lake API",
-    description="FastAPI Backend providing JWT Authentication, Role-Based Access Control (RBAC), Audit Trail, and Airflow Pipeline Status",
-    version="1.0.0"
+    description="FastAPI Backend providing JWT Authentication, Role-Based Access Control (RBAC), "
+                "Audit Trail, and Airflow Pipeline Status",
+    version="1.0.0",
 )
 
 # CORS configuration for React frontend
@@ -31,24 +34,23 @@ app.include_router(audit_router)
 app.include_router(pipeline_router)
 app.include_router(ai_router)
 
+
 @app.get("/")
 def root():
     return {
         "system": "Banking PII Data Lake Governance API",
         "status": "online",
         "version": "1.0.0",
-        "docs_url": "/docs"
+        "docs_url": "/docs",
     }
+
 
 @app.get("/health")
 def health_check():
-    return {
-        "status": "healthy",
-        "backend": "online",
-        "version": "1.0.0"
-    }
+    return {"status": "healthy", "backend": "online", "version": "1.0.0"}
 
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run("backend.main:app", host="0.0.0.0", port=8000, reload=True)

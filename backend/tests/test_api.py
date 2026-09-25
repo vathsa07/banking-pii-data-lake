@@ -28,10 +28,10 @@ def _make_mock_conn(row):
 def test_auth_login_success():
     """Auth login success — mocks DB so no real Postgres needed in CI."""
     mock_conn = _make_mock_conn(
-        ("admin_user", "$2b$12$placeholder_hash", "admin")
-    )
-    with patch("backend.routes.auth_routes.get_db_connection", return_value=mock_conn), \
-         patch("backend.routes.auth_routes.verify_password", return_value=True):
+        ("admin_user", "$2b$12$placeholder_hash", "admin"))
+    with patch(
+        "backend.routes.auth_routes.get_db_connection", return_value=mock_conn
+    ), patch("backend.routes.auth_routes.verify_password", return_value=True):
         payload = {"username": "admin_user", "password": "admin123"}
         response = client.post("/auth/login", json=payload)
         assert response.status_code == 200
