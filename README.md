@@ -60,7 +60,36 @@ flowchart TD
 | **PII Engine** | Custom Regex + `HMAC-SHA256` | Deterministic tokenization module with secret key isolation (`HMAC_SECRET_KEY`) and secure vaulting. |
 | **Governance DB** | `PostgreSQL 15` | Stores role definitions (`analyst`, `compliance_officer`, `admin`), bcrypt user credentials, `pii_vault` mappings, and `audit_logs`. |
 | **Orchestration** | `Apache Airflow 2.8` | Schedules pipeline DAGs and runs automated data quality assertions. |
+| **CI/CD Pipeline** | `Jenkins` + `SonarQube` | Automated declarative pipeline (Jenkinsfile) for python linting, pytest, frontend tests, and static code quality analysis. |
 | **BI Export** | Parquet Export | Gold tables synced to `/powerbi_export/` for Power BI Desktop ingestion. |
+
+---
+
+## 🚀 CI/CD Pipeline (Jenkins + SonarQube)
+
+This project features a fully containerized, automated CI/CD pipeline integrated directly into the `docker-compose` environment. 
+
+### Pipeline Architecture
+1. **Source Control Checkout**: Jenkins pulls the latest code.
+2. **Backend Linting**: Runs `ruff` against FastAPI code to catch syntax and styling errors.
+3. **Backend Tests**: Runs `pytest` with mocked database/S3 connections.
+4. **Frontend Linting & Tests**: Verifies React component syntax and tests.
+5. **SonarQube Quality Gate**: Runs `sonar-scanner` to detect bugs, vulnerabilities, and code smells, failing the pipeline if the quality gate drops.
+
+### Accessing the CI/CD Tools
+* **Jenkins UI**: [http://localhost:8082](http://localhost:8082)
+  * **Username**: `admin`
+  * **Password**: `5cd22ea440bb454c82f5a1f447712c80`
+* **SonarQube Dashboard**: [http://localhost:9000](http://localhost:9000)
+  * **Username**: `admin`
+  * **Password**: `admin` (or `sonar123` if you updated it)
+
+### CI/CD Verification Checklist
+- [x] Containers spin up cleanly with `docker-compose up -d`.
+- [x] `banking-pii-pipeline` job is created in Jenkins.
+- [x] Jenkins properly waits for SonarQube to fully boot (up to 5 mins) before scanning.
+- [x] SonarQube scan succeeds and metrics are visible in the SonarQube UI.
+- [ ] Pipeline catches intentional failures (e.g., breaking a test deliberately).
 
 ---
 
