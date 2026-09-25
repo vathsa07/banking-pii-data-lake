@@ -37,7 +37,7 @@ pipeline {
                 echo '=== STAGE 3: Backend Unit Tests (Pytest) ==='
                 sh '''
                     . venv/bin/activate
-                    pytest backend/tests --cov=backend --cov-report=xml:backend/coverage.xml
+                    PYTHONPATH=. pytest backend/tests --cov=backend --cov-report=xml:backend/coverage.xml
                     # Ensure coverage source path is relative for SonarQube
                     sed -i 's|<source>/app/backend</source>|<source>backend</source>|g' backend/coverage.xml || true
                 '''

@@ -27,7 +27,7 @@ def get_db_connection():
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     # Direct match or bcrypt check
-    if hashed_password.startswith("$2b$") or hashed_password.startswith("$2a$"):
+    if hashed_password.startswith(("$2b$", "$2a$")):
         return pwd_context.verify(plain_password, hashed_password)
     # Simple fallback check for demo seed passwords
     return plain_password == hashed_password or plain_password in [
