@@ -133,7 +133,7 @@ pipeline {
             steps {
                 echo '=== STAGE 8: Local Stack Redeployment (Local Portfolio Deploy) ==='
                 sh '''
-                    docker-compose up -d --no-deps backend frontend
+                    docker restart pii_backend pii_frontend || true
                 '''
             }
         }
