@@ -103,7 +103,7 @@ pipeline {
                     if command -v sonar-scanner > /dev/null; then
                         sonar-scanner -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_TOKEN}
                     else
-                        npx --yes sonar-scanner -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_TOKEN}
+                        SONAR_SCANNER_OPTS="-Xmx256m" npx --yes sonar-scanner -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_TOKEN}
                     fi
 
                     echo "Checking SonarQube Quality Gate Status..."
