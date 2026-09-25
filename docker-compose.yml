@@ -185,5 +185,71 @@ services:
       moto-s3:
         condition: service_healthy
 
+  sonarqube:
+    image: sonarqube:community
+    container_name: pii_sonarqube
+    restart: always
+    ports:
+      - "9000:9000"
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+      - SONAR_SEARCH_JAVAADDITIONALOPTS=-Dnode.store.allow_mmap=false -Xms256m -Xmx256m
+      - SONAR_WEB_JAVAADDITIONALOPTS=-Xms256m -Xmx384m
+      - SONAR_CE_JAVAADDITIONALOPTS=-Xms256m -Xmx384m
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:9000/api/system/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+
+  jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins
+    container_name: pii_jenkins
+    restart: always
+    user: root
+    environment:
+      - JAVA_OPTS=-Xms256m -Xmx512m
+    ports:
+      - "8082:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  cron:
+    build:
+      context: ./cron
+      dockerfile: Dockerfile
+    image: banking-pii-cron:latest
+    container_name: pii_cron
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./backups:/backups
+      - cron_logs:/var/log
+    depends_on:
+      postgres:
+        condition: service_healthy
+      backend:
+        condition: service_started
+
 volumes:
   postgres_data:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+  jenkins_home:
+  cron_logs:
+
+
