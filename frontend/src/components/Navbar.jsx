@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { RoleBadge } from './RoleBadge';
-import { Database, ShieldCheck, Activity, LogOut, Play, CheckCircle2 } from 'lucide-react';
+import { Database, Activity, LogOut, Play, CheckCircle2 } from 'lucide-react';
 
 export const Navbar = () => {
   const { user, logout, token } = useAuth();

@@ -1,9 +1,8 @@
 import os
-import time
 from datetime import datetime, timedelta
 import jwt
 from passlib.context import CryptContext
-from fastapi import HTTPException, Security, Depends
+from fastapi import HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import psycopg2
 
@@ -28,11 +27,6 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     if hashed_password.startswith("$2b$") or hashed_password.startswith("$2a$"):
         return pwd_context.verify(plain_password, hashed_password)
     # Simple fallback check for demo seed passwords
-    simple_passwords = {
-        "alice_analyst": "analyst123",
-        "carol_compliance": "compliance123",
-        "admin_user": "admin123"
-    }
     return plain_password == hashed_password or plain_password in ["analyst123", "compliance123", "admin123", "admin"]
 
 def hash_password(password: str) -> str:

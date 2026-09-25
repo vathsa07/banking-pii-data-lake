@@ -1,0 +1,12 @@
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+# Ignore rules that conflict with FastAPI patterns and intentional design choices:
+# B008  - FastAPI Depends() in function signatures is the correct DI pattern
+# BLE001 - Broad exception catching in API route error handlers is intentional
+# DTZ003 - utcnow() is acceptable for JWT token generation in this codebase
+# PLW1508 - int() default for POSTGRES_PORT env var is intentional
+# S110   - try/except/pass fallback is intentional in AI route
+ignore = ["B008", "BLE001", "DTZ003", "PLW1508", "S110"]

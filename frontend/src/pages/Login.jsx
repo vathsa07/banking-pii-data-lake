@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Shield, Lock, User, KeyRound, AlertCircle, ArrowRight, Database } from 'lucide-react';
+import { Shield, User, KeyRound, AlertCircle, ArrowRight } from 'lucide-react';
 
 export const Login = () => {
   const [username, setUsername] = useState('alice_analyst');

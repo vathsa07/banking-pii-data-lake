@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Navbar } from '../components/Navbar';
-import { ShieldCheck, EyeOff, Lock, Users, DollarSign, CreditCard, Search, RefreshCw } from 'lucide-react';
+import { EyeOff, Lock, Users, DollarSign, CreditCard, Search, RefreshCw } from 'lucide-react';
 
 export const AnalystDashboard = () => {
   const { token } = useAuth();

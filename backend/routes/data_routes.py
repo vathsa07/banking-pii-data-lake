@@ -1,11 +1,10 @@
 import os
 import sys
 import pandas as pd
-import json
 from fastapi import APIRouter, Depends, HTTPException
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-from backend.auth import decode_token, require_roles
+from backend.auth import decode_token
 from governance.access_control import get_gold_customer_data
 from pipeline.s3_utils import get_s3_client
 

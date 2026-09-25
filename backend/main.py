@@ -8,6 +8,7 @@ from backend.routes.auth_routes import router as auth_router
 from backend.routes.data_routes import router as data_router
 from backend.routes.audit_routes import router as audit_router
 from backend.routes.pipeline_routes import router as pipeline_router
+from backend.routes.ai_routes import router as ai_router
 
 app = FastAPI(
     title="Banking PII & Governance Data Lake API",
@@ -28,6 +29,7 @@ app.include_router(auth_router)
 app.include_router(data_router)
 app.include_router(audit_router)
 app.include_router(pipeline_router)
+app.include_router(ai_router)
 
 @app.get("/")
 def root():
@@ -37,6 +39,15 @@ def root():
         "version": "1.0.0",
         "docs_url": "/docs"
     }
+
+@app.get("/health")
+def health_check():
+    return {
+        "status": "healthy",
+        "backend": "online",
+        "version": "1.0.0"
+    }
+
 
 if __name__ == "__main__":
     import uvicorn

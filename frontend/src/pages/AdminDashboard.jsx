@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Navbar } from '../components/Navbar';
-import { ShieldCheck, Activity, CheckCircle2, XCircle, AlertTriangle, RefreshCw, Server, Database, FileCode } from 'lucide-react';
+import { ShieldCheck, Activity, CheckCircle2, XCircle, RefreshCw, Server } from 'lucide-react';
 
 export const AdminDashboard = () => {
   const { token } = useAuth();
   const [activeTab, setActiveTab] = useState('health'); // 'health', 'quality', 'audit'
+  /* eslint-disable no-unused-vars */
   const [pipelineStatus, setPipelineStatus] = useState(null);
   const [dataQuality, setDataQuality] = useState(null);
   const [loadingHealth, setLoadingHealth] = useState(true);
   const [loadingDQ, setLoadingDQ] = useState(true);
-  const [error, setError] = useState(null);
+  /* eslint-enable no-unused-vars */
 
   const fetchPipelineStatus = async () => {
     setLoadingHealth(true);
@@ -22,7 +23,7 @@ export const AdminDashboard = () => {
       const result = await res.json();
       if (res.ok) setPipelineStatus(result);
     } catch (err) {
-      setError(err.message);
+      console.error(err);
     } finally {
       setLoadingHealth(false);
     }
@@ -38,7 +39,7 @@ export const AdminDashboard = () => {
       const result = await res.json();
       if (res.ok) setDataQuality(result);
     } catch (err) {
-      setError(err.message);
+      console.error(err);
     } finally {
       setLoadingDQ(false);
     }

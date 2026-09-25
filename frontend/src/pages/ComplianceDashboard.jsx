@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Navbar } from '../components/Navbar';
-import { ShieldCheck, Lock, Unlock, Users, DollarSign, FileText, Search, RefreshCw, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Lock, Unlock, Users, FileText, Search, RefreshCw } from 'lucide-react';
 
 export const ComplianceDashboard = () => {
   const { token } = useAuth();
@@ -10,7 +10,6 @@ export const ComplianceDashboard = () => {
   const [auditLogs, setAuditLogs] = useState([]);
   const [loadingGold, setLoadingGold] = useState(false);
   const [loadingAudit, setLoadingAudit] = useState(false);
-  const [error, setError] = useState(null);
   const [searchAudit, setSearchAudit] = useState('');
 
   const fetchGoldData = async () => {
@@ -25,7 +24,7 @@ export const ComplianceDashboard = () => {
         setGoldData(result.data || []);
       }
     } catch (err) {
-      setError(err.message);
+      console.error(err);
     } finally {
       setLoadingGold(false);
     }
@@ -43,7 +42,7 @@ export const ComplianceDashboard = () => {
         setAuditLogs(result.logs || []);
       }
     } catch (err) {
-      setError(err.message);
+      console.error(err);
     } finally {
       setLoadingAudit(false);
     }

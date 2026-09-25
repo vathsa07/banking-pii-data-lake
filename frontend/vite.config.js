@@ -6,5 +6,14 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 3000,
-  }
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/test/setup.js',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'lcov', 'html'],
+    },
+  },
 });

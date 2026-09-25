@@ -90,7 +90,7 @@ def get_data_quality_results(payload: dict = Depends(require_roles(["admin", "co
             "check_name": "HMAC Tokenization Prefix Verification",
             "category": "PII Protection",
             "status": "FAIL" if has_name_leak else "PASS",
-            "details": f"Zero name leaks. All names start with 'TOK_' prefix." if not has_name_leak else f"LEAK DETECTED: {len(invalid_names)} unmasked names found!",
+            "details": "Zero name leaks. All names start with 'TOK_' prefix." if not has_name_leak else f"LEAK DETECTED: {len(invalid_names)} unmasked names found!",
             "severity": "CRITICAL"
         })
         

@@ -1,0 +1,9 @@
+# Infrastructure Housekeeping Crontab
+# 1. Database backup nightly at 02:00
+0 2 * * * /scripts/db_backup.sh >> /var/log/infra_cron.log 2>&1
+
+# 2. Log cleanup nightly at 03:00
+0 3 * * * /scripts/log_cleanup.sh >> /var/log/infra_cron.log 2>&1
+
+# 3. Health check every minute
+* * * * * /scripts/health_check.sh >> /var/log/infra_cron.log 2>&1
